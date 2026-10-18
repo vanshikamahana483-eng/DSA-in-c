@@ -22,3 +22,81 @@ Step 6: Capture incoming and outgoing network packets from the selected interfac
 
 Step 7: Store each captured packet in a thread-safe circular buffer for processing.
 
+Step 8: Retrieve a packet from the circular buffer for analysis.
+
+Step 9: Read the Ethernet header of the packet and extract the Ethernet type field.
+
+Step 10: Check whether the Ethernet type indicates IPv4 ("0x0800").
+
+- If NO, discard the packet and return to Step 6.
+- If YES, proceed to Step 11.
+
+Step 11: Read the IP header and examine the protocol field.
+
+Step 12: Check whether the protocol field indicates TCP ("6").
+
+- If NO, discard the packet and return to Step 6.
+- If YES, proceed to Step 13.
+
+Step 13: Calculate the IP header length using the Internet Header Length (IHL) field.
+
+Step 14: Locate the TCP header using the Ethernet header length and IP header length.
+
+Step 15: Extract TCP header information, including:
+- Source port number
+- Destination port number
+- Sequence number
+- Acknowledgment number
+- TCP header length
+- Window size
+- Checksum
+- TCP flags such as SYN, ACK, FIN, RST, PSH and URG
+
+Step 16: Convert network byte-order values into host byte order wherever required.
+
+Step 17: Display the extracted TCP packet information.
+
+Step 18: Display selected raw packet bytes in hexadecimal format for detailed inspection.
+
+Step 19: Repeat the filtering and analysis process for each newly captured packet.
+
+Step 20: When packet capturing ends, stop processing, release allocated resources and terminate the algorithm.
+
+Step 21: Stop.
+
+START
+               |
+               v
+   Initialize Packet Capture
+               |
+               v
+    Select Network Interface
+               |
+               v
+        Capture a Packet
+               |
+               v
+          Is it IPv4?
+           /       \
+         No         Yes
+         |           |
+   Discard Packet    v
+                 Is it TCP?
+                  /     \
+                No       Yes
+                |         |
+          Discard Packet  v
+                    Extract TCP Header
+                           |
+                           v
+                  Display Packet Details
+                           |
+                           v
+                     More Packets?
+                      /        \
+                    Yes         No
+                     |           |
+              Capture Next    Stop Capture
+                 Packet           |
+                                  v
+                                 END
